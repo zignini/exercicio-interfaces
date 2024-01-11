@@ -1,36 +1,35 @@
 package model.entities;
 
+import model.services.OnlinePaymentService;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Contract {
 
     private int number;
     private LocalDate date;
-    private double value;
-    private int installments;
-    private PaymentService paymentService;
+    private double totalValue;
+    private List<Installment> installments = new ArrayList<>();
 
-    public Contract(int number, LocalDate date, double value, int installments, PaymentService paymentService) {
+    public Contract(int number, LocalDate date, double totalValue) {
         this.number = number;
         this.date = date;
-        this.value = value;
-        this.installments = installments;
-        this.paymentService = paymentService;
+        this.totalValue = totalValue;
     }
 
-    public void printMonthlyFee () {
-        double installmentValue = value / installments;
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public List<Installment> getInstallments() {
+        return installments;
+    }
 
-        System.out.println("Installments: ");
-        for (int i = 1; i <= installments; i++) {
-            LocalDate due = date.plus(i, ChronoUnit.MONTHS);
-            double monthlyFee = paymentService.calculateMonthlyFee(installmentValue, i);
+    public LocalDate getDate() {
+        return date;
+    }
 
-            System.out.printf("%s - %.2f%n", fmt.format(due), monthlyFee);
-
-        }
+    public double getTotalValue() {
+        return totalValue;
     }
 }

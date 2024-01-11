@@ -1,21 +1,17 @@
 package model.services;
 
-import model.entities.PaymentService;
+public class PayPalService implements OnlinePaymentService {
 
-public class PayPalService implements PaymentService {
-
-    private double interestRate;
-    private double paymentRate;
-
-    public PayPalService(double interestRate, double paymentRate) {
-        this.interestRate = interestRate;
-        this.paymentRate = paymentRate;
+    public PayPalService() {
     }
 
     @Override
-    public double calculateMonthlyFee(double installmentValue, int installmentNumber) {
-        installmentValue += installmentValue * interestRate * installmentNumber;
-        installmentValue += installmentValue * paymentRate;
-        return installmentValue;
+    public double paymentFee(double amount) {
+        return amount * 0.02;
+    }
+
+    @Override
+    public double interest(double amount, int months) {
+        return amount * 0.01 * months;
     }
 }
